@@ -1,0 +1,3 @@
+[submodule "Adafruit-Raspberry-Pi-Python-Code"]
+	path = Adafruit-Raspberry-Pi-Python-Code
+	url = https://github.com/adafruit/Adafruit-Raspberry-Pi-Python-Code.git
