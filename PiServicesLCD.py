@@ -37,7 +37,6 @@ class PiServicesMenu:
     except subprocess.CalledProcessError as e:
       print e
 
-    print services
     return services
 
 
@@ -154,6 +153,15 @@ if __name__ == '__main__':
   sys.path.append(os.path.abspath('./Adafruit-Raspberry-Pi-Python-Code/Adafruit_CharLCDPlate'))
   import Adafruit_CharLCDPlate
   lcd = Adafruit_CharLCDPlate.Adafruit_CharLCDPlate(busnum = 1)
+  lcd.backlight(lcd.RED)
 
-  menu = PiServicesMenu(lcd)
-  menu.runMenu()
+  if len(sys.argv) > 1 and sys.argv[1] == 'off':
+    lcd.backlight(lcd.OFF)
+  else:
+    menu = PiServicesMenu(lcd)
+    menu.runMenu()
+    del menu
+
+  if lcd:
+    del lcd
+  
