@@ -25,6 +25,8 @@ class PiServicesMenu:
 
   def getServices(self):
     services = []
+    services.append([OFF, "System Shutdown"])
+    services.append([OFF, "System Reboot"])
     try:
       serviceOut = subprocess.check_output(["service", "--status-all"])
       serviceLines = serviceOut.splitlines()
@@ -34,6 +36,7 @@ class PiServicesMenu:
 
         if matches and len(matches.groups()) == 2:
           services.append([matches.group(1), matches.group(2)])
+          print([matches.group(1), matches.group(2)])
     except subprocess.CalledProcessError as e:
       print e
 
@@ -45,7 +48,12 @@ class PiServicesMenu:
     if self.services[svcIdx][0] == ON:
       action = " stop"
     try:
-      serviceOut = subprocess.check_output(["service", self.services[svcIdx][1], action])
+      if 0 == svcIdx:
+        serviceOut = subprocess.check_output(["shutdown", "-h", "now"])
+      elif 1 == svcIdx:
+        serviceOut = subprocess.check_output(["reboot"])
+      else:
+        serviceOut = subprocess.check_output(["service", self.services[svcIdx][1], action])
       self.lcd.clear()
       self.lcd.message(serviceOut)
       if self.services[svcIdx][0] == OFF:
@@ -152,7 +160,7 @@ class PiServicesMenu:
 if __name__ == '__main__':
   sys.path.append(os.path.abspath('./Adafruit-Raspberry-Pi-Python-Code/Adafruit_CharLCDPlate'))
   import Adafruit_CharLCDPlate
-  lcd = Adafruit_CharLCDPlate.Adafruit_CharLCDPlate(busnum = 1)
+  lcd = Adafruit_CharLCDPlate.Adafruit_CharLCDPlate(busnum = 0)
   lcd.backlight(lcd.RED)
 
   if len(sys.argv) > 1 and sys.argv[1] == 'off':
