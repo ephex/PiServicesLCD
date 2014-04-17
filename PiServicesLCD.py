@@ -49,8 +49,10 @@ class PiServicesMenu:
       action = " stop"
     try:
       if 0 == svcIdx:
+        lcd.backlight(lcd.OFF)
         serviceOut = subprocess.check_output(["shutdown", "-h", "now"])
       elif 1 == svcIdx:
+        lcd.backlight(lcd.OFF)
         serviceOut = subprocess.check_output(["reboot"])
       else:
         serviceOut = subprocess.check_output(["service", self.services[svcIdx][1], action])
