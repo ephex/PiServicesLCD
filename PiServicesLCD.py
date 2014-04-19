@@ -12,6 +12,10 @@ refresh = 1
 ON = "+"
 OFF = "-"
 
+# I2C Bus Number (0 for rev1 rpi, 1 for rev2)
+import i2c_bus_config
+BUSNUM = i2c_bus_config.BUSNUM
+
 class PiServicesMenu:
 
   def __init__(self, lcd):
@@ -166,7 +170,7 @@ class PiServicesMenu:
 if __name__ == '__main__':
   sys.path.append(os.path.abspath('./Adafruit-Raspberry-Pi-Python-Code/Adafruit_CharLCDPlate'))
   import Adafruit_CharLCDPlate
-  lcd = Adafruit_CharLCDPlate.Adafruit_CharLCDPlate(busnum = 0)
+  lcd = Adafruit_CharLCDPlate.Adafruit_CharLCDPlate(busnum = BUSNUM)
   lcd.backlight(lcd.RED)
 
   if len(sys.argv) > 1 and sys.argv[1] == 'off':
