@@ -50,10 +50,14 @@ class PiServicesMenu:
     try:
       if 0 == svcIdx:
         lcd.backlight(lcd.OFF)
-        serviceOut = subprocess.check_output(["shutdown", "-h", "now"])
+        command = "/usr/bin/sudo /sbin/shutdown -h now"
+        os.system(command)
+        sys.exit(0)
       elif 1 == svcIdx:
         lcd.backlight(lcd.OFF)
-        serviceOut = subprocess.check_output(["reboot"])
+        command = "/usr/bin/sudo /sbin/shutdown -r now"
+        os.system(command)
+        sys.exit(0)
       else:
         serviceOut = subprocess.check_output(["service", self.services[svcIdx][1], action])
       self.lcd.clear()
